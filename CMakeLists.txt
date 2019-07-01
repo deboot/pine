@@ -1,4 +1,3 @@
-# the whole CMakeLists.txt for project grape
 PROJECT(pine)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
