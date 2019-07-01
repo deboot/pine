@@ -1,9 +1,13 @@
 # Pine Overview
-Rine is tiny RTMP (Real Time Messaging Protocol) video streaming server pusher and client for embeded system. it's written in C and fast, easy to install, and supports multi path. H.264/265 AVC.. and no dependence.
+Rine is tiny RTMP (Real Time Messaging Protocol) video streaming server pusher and client for embeded system. it's written in C/C++ and fast, easy to install, and supports multi path. H.264/265 AVC.. and no dependence.
 
 - a static library for RTMP pusher and client ( librtmp.a)
 - a executable binary for  push video stream to RTMP server (pine-pusher).
 - a executable binary for  live client to receive video stream from RTMP server (pine-client).
+
+
+
+This project is a fork from https://github.com/janneku/rtmpserver and fix some problems.
 
 
 
@@ -94,4 +98,3 @@ vlc media -> open network stream -> rtmp://127.0.0.1/live/two_stream
 ./build/bin/x86_64/pine-pusher test.h264 rtmp://127.0.0.1/live/one_stream
 ./build/bin/x86_64/pine-pusher test.h264 rtmp://127.0.0.1/live/two_stream
 ```
-
