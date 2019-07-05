@@ -152,10 +152,10 @@ void amf_write(Encoder *enc, double n)
 {
 	enc->buf += char(AMF0_NUMBER);
 	uint64_t encoded = 0;
-#if defined(__i386__) || defined(__x86_64__)
+//#if defined(__i386__) || defined(__x86_64__)
 	/* Flash uses same floating point format as x86 */
 	memcpy(&encoded, &n, 8);
-#endif
+//#endif
 	uint32_t val = htonl(encoded >> 32);
 	enc->buf.append((char *) &val, 4);
 	val = htonl(encoded);
@@ -289,10 +289,10 @@ double amf_load_number(Decoder *dec)
 	uint64_t val = ((uint64_t) load_be32(&dec->buf[dec->pos]) << 32) |
 			load_be32(&dec->buf[dec->pos + 4]);
 	double n = 0;
-#if defined(__i386__) || defined(__x86_64__)
+//#if defined(__i386__) || defined(__x86_64__)
 	/* Flash uses same floating point format as x86 */
 	memcpy(&n, &val, 8);
-#endif
+//#endif
 	dec->pos += 8;
 	return n;
 }
