@@ -4,12 +4,7 @@ Rine is tiny RTMP (Real Time Messaging Protocol) video streaming server pusher a
 - a static library for RTMP pusher and client ( librtmp.a)
 - a executable binary for  push video stream to RTMP server (pine-pusher).
 - a executable binary for  live client to receive video stream from RTMP server (pine-client).
-
-
-
-This project is a fork from https://github.com/janneku/rtmpserver and fix some problems.
-
-
+- a executable binary for  RTPM server (pine-rtmpsrv) 
 
 ## Build Instructions
 
