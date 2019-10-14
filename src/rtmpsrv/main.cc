@@ -16,6 +16,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "rtmp_log.h"
+
 #define APP_NAME	"live"
 
 struct RTMP_Message {
@@ -202,9 +204,11 @@ void handle_connect(Client *client, double txid, Decoder *dec)
 		ver = flashver.as_string();
 	}
 
+    /*
 	if (app != APP_NAME) {
 		throw std::runtime_error("Unsupported application: " + app);
 	}
+    */
 
 	printf("connect: %s (version %s)\n", app.c_str(), ver.c_str());
 
@@ -481,6 +485,7 @@ void handle_message(Client *client, RTMP_Message *msg)
 		break;
 
 	case MSG_INVOKE: {
+            debug("handling message invoke 0 \n");
 			Decoder dec;
 			dec.version = 0;
 			dec.buf = msg->buf;
@@ -490,8 +495,9 @@ void handle_message(Client *client, RTMP_Message *msg)
 		break;
 
 	case MSG_INVOKE3: {
+            debug("handling message invoke 3 \n");
 			Decoder dec;
-			dec.version = 0;
+            dec.version = 0;
 			dec.buf = msg->buf;
 			dec.pos = 1;
 			handle_invoke(client, msg, &dec);
@@ -546,7 +552,13 @@ void handle_message(Client *client, RTMP_Message *msg)
 					receiver->ready = true;
 				}
 				if (receiver->ready) {
-					rtmp_send(receiver, MSG_VIDEO,
+                    static int flag = 0;
+                    if(flag < 10) {
+                        flag ++;
+
+                        RTMP_LogHexString( 0, (uint8_t *)msg->buf.c_str(), msg->len >200?200:msg->len);
+                    }
+                    rtmp_send(receiver, MSG_VIDEO,
 						  STREAM_ID, msg->buf,
 						  msg->timestamp);
 				}
@@ -758,7 +770,7 @@ void do_poll(void)
 		Client *client = clients[i];
 		if (client != NULL) {
 			if (!client->send_queue.empty()) {
-				debug("waiting for pollout\n");
+                //debug("waiting for pollout\n");
 				poll_table[i].events = POLLIN | POLLOUT;
 			} else {
 				poll_table[i].events = POLLIN;
